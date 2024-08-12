@@ -1,17 +1,18 @@
-package ru.practicum.shareit.booking.dto;
+package ru.practicum.shareit.user.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDateTime;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
-public class BookingDto {
+public class User {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    Long itemId;
-    LocalDateTime start;
-    LocalDateTime end;
+    Long id;
+    String name;
+    @NotEmpty
+    String email;
 }

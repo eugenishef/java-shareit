@@ -1,19 +1,19 @@
-package ru.practicum.shareit.item.model;
+package ru.practicum.shareit.request.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDateTime;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Item {
+public class ItemRequest {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     Long id;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    Long ownerId;
-    String name;
+    Long requesterId;
     String description;
-    boolean available;
+    LocalDateTime created;
 }
