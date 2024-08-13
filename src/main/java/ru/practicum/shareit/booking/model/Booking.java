@@ -15,10 +15,10 @@ public class Booking {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     Long itemId;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    Long bookerId; //он же User
+    Long bookerId;
     LocalDateTime start;
     LocalDateTime end;
-    BookingStatus status; //Item.available
+    BookingStatus status;
 
     public enum BookingStatus {
         WAITING,
