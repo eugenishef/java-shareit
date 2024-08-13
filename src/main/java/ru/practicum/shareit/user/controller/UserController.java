@@ -17,6 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     public static final String USERS_BASE_PATH = "/users";
+    public static final String USER_ID_PATH = "/{userId}";
+
     final UserService userService;
 
     @PostMapping
@@ -25,13 +27,13 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    @PatchMapping("/{userId}")
+    @PatchMapping(USER_ID_PATH)
     @ResponseStatus(HttpStatus.OK)
     public User updateUser(@PathVariable Long userId, @RequestBody User user) {
         return userService.updateUser(userId, user);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping(USER_ID_PATH)
     @ResponseStatus(HttpStatus.OK)
     public User getUser(@PathVariable Long userId) {
         return userService.getUserById(userId);
@@ -43,7 +45,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping(USER_ID_PATH)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);

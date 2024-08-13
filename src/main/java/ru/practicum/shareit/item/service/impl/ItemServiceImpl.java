@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.common.IdGenerator;
+import ru.practicum.shareit.exception.InvalidItemException;
+import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.ItemService;
@@ -19,7 +21,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item createItem(Long userId, Long ownerId, String name, String description, boolean available) throws IllegalAccessException {
         if (name == null || name.isEmpty()) {
-            throw new IllegalAccessException("Название не может быть пустым");
+            throw new InvalidItemException("Название не может быть пустым");
         }
 
         Item item = new Item(IdGenerator.nextId(), ownerId, name, description, available);
@@ -37,7 +39,7 @@ public class ItemServiceImpl implements ItemService {
         return items.stream()
                 .filter(item -> item.getId().equals(itemId))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Вещь не найдена"));
+                .orElseThrow(() -> new ItemNotFoundException(itemId));
     }
 
     @Override
@@ -48,5 +50,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> searchItems(String text) {
         return List.of();
+    }
+
+    @Override
+    public List<Item> getAllItems() {
+        return new ArrayList<>(items);
     }
 }
