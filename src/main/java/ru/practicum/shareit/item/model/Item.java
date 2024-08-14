@@ -1,6 +1,7 @@
 package ru.practicum.shareit.item.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -15,9 +16,9 @@ public class Item {
     Long id;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     Long ownerId;
-    @NotEmpty
+    @NotBlank
     String name;
-    @NotEmpty
+    @NotBlank
     String description;
     @NotNull
     Boolean available;

@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     public static final String USERS_BASE_PATH = "/users";
-    public static final String USER_ID_PATH = "/{userId}";
+    public static final String USER_ID_PATH = "/{user-id}";
 
     final UserService userService;
 

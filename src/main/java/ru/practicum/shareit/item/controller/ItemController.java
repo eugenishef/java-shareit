@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemController {
     public static final String ITEMS_BASE_PATH = "/items";
-    public static final String ITEM_ID_PATH = "/{itemId}";
+    public static final String ITEM_ID_PATH = "/{item-id}";
     public static final String SEARCH_PATH = "/search";
     public static final String USER_HEADER = "X-Sharer-User-Id";
 
