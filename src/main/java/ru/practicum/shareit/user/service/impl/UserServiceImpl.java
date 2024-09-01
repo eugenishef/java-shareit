@@ -1,9 +1,12 @@
 package ru.practicum.shareit.user.service.impl;
 
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.common.IdGenerator;
+import ru.practicum.shareit.item.service.UserRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 
@@ -12,15 +15,17 @@ import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     final List<User> users = new ArrayList<>();
+    final UserRepository userRepository;
 
     @Override
     public User createUser(User user) {
-        user.setId(IdGenerator.nextId());
-        users.add(user);
+//        user.setId(IdGenerator.nextId());
+//        users.add(user);
 
-        return user;
+        return userRepository.save(user);
     }
 
     @Override

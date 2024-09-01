@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
@@ -52,19 +50,12 @@ public class ItemController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Item createItem(@RequestHeader(USER_HEADER) Long userId, @Valid @RequestBody Item item) throws IllegalAccessException {
-        User user;
-        try {
-            user = userService.getUserById(userId);
-        } catch(IllegalArgumentException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с id " + userId + " не найден");
-        }
-
+    public Item createItem(@RequestHeader(USER_HEADER) Long userId, @Valid @RequestBody Item item) {
         if (item.getOwnerId() == null) {
             item.setOwnerId(userId);
         }
 
-        return itemService.createItem(userId, item.getOwnerId(), item.getName(), item.getDescription(), true);
+        return itemService.createItem(userId, item.getOwnerId(), item.getName(), item.getDescription(), item.getAvailable());
     }
 
     @PatchMapping(ITEM_ID_PATH)
