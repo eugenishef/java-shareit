@@ -10,9 +10,9 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.item.service.UserRepository;
+import ru.practicum.shareit.user.service.UserRepository;
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.service.ItemRepository;
+import ru.practicum.shareit.item.service.ItemRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
