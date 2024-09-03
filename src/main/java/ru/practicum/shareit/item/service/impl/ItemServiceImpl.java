@@ -9,9 +9,9 @@ import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.service.ItemService;
-import ru.practicum.shareit.item.service.UserRepository;
+import ru.practicum.shareit.user.service.UserRepository;
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.service.ItemRepository;
+import ru.practicum.shareit.item.service.ItemRepository;
 
 import java.util.ArrayList;
 import java.util.List;

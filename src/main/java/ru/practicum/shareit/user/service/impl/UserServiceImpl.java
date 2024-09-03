@@ -3,10 +3,8 @@ package ru.practicum.shareit.user.service.impl;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.practicum.shareit.common.IdGenerator;
-import ru.practicum.shareit.item.service.UserRepository;
+import ru.practicum.shareit.user.service.UserRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 
@@ -22,19 +20,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-//        user.setId(IdGenerator.nextId());
-//        users.add(user);
-
         return userRepository.save(user);
     }
 
     @Override
     public User updateUser(Long userId, User user) {
         User existingUser = getUserById(userId);
-        existingUser.setName(user.getName());
-        existingUser.setEmail(user.getEmail());
 
-        return existingUser;
+        return userRepository.save(existingUser);
     }
 
     @Override
