@@ -10,4 +10,5 @@ public class ItemDto {
     String name;
     String description;
     boolean available;
+    Long requestId;
 }

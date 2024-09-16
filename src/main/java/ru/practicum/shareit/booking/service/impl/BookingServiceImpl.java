@@ -28,54 +28,43 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public Booking createBooking(Long userId, Booking bookingRequest) {
-        // Проверка существования пользователя
         User booker = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
 
-        // Проверка существования предмета
         Item item = itemRepository.findById(bookingRequest.getItem().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Предмет не найден"));
 
-        // Проверка доступности предмета
         if (!item.getAvailable()) {
             throw new IllegalArgumentException("Предмет недоступен для бронирования");
         }
 
-        // Установка данных бронирования
         bookingRequest.setItem(item);
         bookingRequest.setBooker(booker);
         bookingRequest.setStatus(Booking.BookingStatus.WAITING);
 
-        // Сохранение бронирования
         return bookingRepository.save(bookingRequest);
     }
 
     @Override
     @Transactional
     public Booking updateBooking(Long userId, Long bookingId, Boolean approved) {
-        // Проверка существования бронирования
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new EntityNotFoundException("Бронирование не найдено"));
 
-        // Проверка, является ли пользователь владельцем предмета
         if (!booking.getItem().getOwnerId().equals(userId)) {
             throw new IllegalArgumentException("Только владелец может подтвердить или отклонить бронирование");
         }
 
-        // Обновление статуса бронирования
         booking.setStatus(approved ? Booking.BookingStatus.APPROVED : Booking.BookingStatus.REJECTED);
 
-        // Сохранение обновленного бронирования
         return bookingRepository.save(booking);
     }
 
     @Override
     public Booking getBooking(Long userId, Long bookingId) {
-        // Проверка существования бронирования
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new EntityNotFoundException("Бронирование не найдено"));
 
-        // Проверка, является ли пользователь автором бронирования или владельцем предмета
         if (!booking.getBooker().getId().equals(userId) && !booking.getItem().getOwnerId().equals(userId)) {
             throw new IllegalArgumentException("Нет доступа к этому бронированию");
         }
@@ -85,11 +74,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> getAllBookings(Long userId, String state) {
-        // Проверка существования пользователя
         userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
 
-        // Получение всех бронирований
         List<Booking> bookings;
         switch (state.toUpperCase()) {
             case "CURRENT":
@@ -118,11 +105,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> getAllBookingsForOwner(Long userId, String state) {
-        // Проверка существования пользователя
         userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
 
-        // Получение всех бронирований для владельца
         List<Booking> bookings;
         switch (state.toUpperCase()) {
             case "CURRENT":
@@ -145,7 +130,6 @@ public class BookingServiceImpl implements BookingService {
                 bookings = bookingRepository.findByItemOwnerId(userId);
                 break;
         }
-
         return bookings;
     }
 }

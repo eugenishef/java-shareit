@@ -23,7 +23,6 @@ public class BookingController {
     public static final String BOOKING_OWNER_PATH = "/owner";
     public static final String USER_HEADER = "X-Sharer-User-Id";
 
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Booking createBooking(@RequestHeader(USER_HEADER) Long userId,
