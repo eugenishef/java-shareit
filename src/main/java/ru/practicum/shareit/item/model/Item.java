@@ -35,6 +35,9 @@ public class Item {
     @NotNull
     Boolean available;
 
+    @Column(name = "request_id")
+    Long requestId;
+
     @OneToMany(mappedBy = "item")
     List<Booking> bookings;
 }

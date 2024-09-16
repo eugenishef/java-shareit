@@ -8,14 +8,12 @@ import ru.practicum.shareit.user.service.UserRepository;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    final List<User> users = new ArrayList<>();
     final UserRepository userRepository;
 
     @Override
@@ -27,24 +25,29 @@ public class UserServiceImpl implements UserService {
     public User updateUser(Long userId, User user) {
         User existingUser = getUserById(userId);
 
+        if (user.getName() != null) {
+            existingUser.setName(user.getName());
+        }
+        if (user.getEmail() != null) {
+            existingUser.setEmail(user.getEmail());
+        }
+
         return userRepository.save(existingUser);
     }
 
     @Override
     public User getUserById(Long userId) {
-        return users.stream()
-                .filter(user -> user.getId().equals(userId))
-                .findFirst()
+        return userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
     }
 
     @Override
     public List<User> getAllUsers() {
-        return new ArrayList<>(users);
+        return userRepository.findAll();
     }
 
     @Override
     public void deleteUser(Long userId) {
-        users.removeIf(user -> user.getId().equals(userId));
+        userRepository.deleteById(userId);
     }
 }
