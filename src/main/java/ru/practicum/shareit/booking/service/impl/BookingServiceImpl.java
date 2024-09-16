@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.booking.service.BookingService;
+import ru.practicum.shareit.exception.BookingNotFoundException;
+import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.service.UserRepository;
 import ru.practicum.shareit.user.model.User;
@@ -29,7 +31,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public Booking createBooking(Long userId, Booking bookingRequest) {
         User booker = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         Item item = itemRepository.findById(bookingRequest.getItem().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Предмет не найден"));
@@ -49,7 +51,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional
     public Booking updateBooking(Long userId, Long bookingId, Boolean approved) {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new EntityNotFoundException("Бронирование не найдено"));
+                .orElseThrow(() -> new BookingNotFoundException(bookingId));
 
         if (!booking.getItem().getOwnerId().equals(userId)) {
             throw new IllegalArgumentException("Только владелец может подтвердить или отклонить бронирование");
@@ -63,7 +65,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking getBooking(Long userId, Long bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new EntityNotFoundException("Бронирование не найдено"));
+                .orElseThrow(() -> new BookingNotFoundException(bookingId));
 
         if (!booking.getBooker().getId().equals(userId) && !booking.getItem().getOwnerId().equals(userId)) {
             throw new IllegalArgumentException("Нет доступа к этому бронированию");
@@ -75,7 +77,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> getAllBookings(Long userId, String state) {
         userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         List<Booking> bookings;
         switch (state.toUpperCase()) {
@@ -106,7 +108,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<Booking> getAllBookingsForOwner(Long userId, String state) {
         userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("Пользователь не найден"));
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         List<Booking> bookings;
         switch (state.toUpperCase()) {
