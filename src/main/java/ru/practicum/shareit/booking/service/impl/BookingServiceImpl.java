@@ -10,6 +10,7 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.exception.BookingNotFoundException;
+import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.service.UserRepository;
@@ -34,7 +35,7 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
         Item item = itemRepository.findById(bookingRequest.getItem().getId())
-                .orElseThrow(() -> new EntityNotFoundException("Предмет не найден"));
+                .orElseThrow(() -> new ItemNotFoundException(bookingRequest.getItem().getId()));
 
         if (!item.getAvailable()) {
             throw new IllegalArgumentException("Предмет недоступен для бронирования");
